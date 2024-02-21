@@ -1,0 +1,9 @@
+development:
+  dialect: sqlite3
+  datasource: test.db
+  dir: db/migrations/sqlite3
+
+production:
+  dialect: postgres
+  datasource: dbname=monoxa sslmode=disable
+  dir: db/migrations/postgres

@@ -1,0 +1,2 @@
+firebase = "./credentials.json"
+frontend = ["http://localhost:5173"]
