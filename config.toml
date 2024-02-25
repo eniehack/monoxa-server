@@ -1,2 +1,7 @@
 firebase = "./credentials.json"
 frontend = ["http://localhost:5173"]
+file_bucket = "./uploads"
+
+[database]
+type = "sqlite"
+url = "./test.sqlite"
