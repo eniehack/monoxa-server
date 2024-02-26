@@ -2,3 +2,4 @@ credentials.json
 /internal/database
 *.sqlite
 config.toml
+.config/docker.env
