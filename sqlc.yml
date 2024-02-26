@@ -8,10 +8,3 @@ sql:
         package: "database"
         out: "internal/database"
         sql_package: "pgx/v5"
-  - engine: "sqlite"
-    queries: "db/query.sql"
-    schema: "db/migrations/sqlite"
-    gen:
-      go:
-        package: "database"
-        out: "internal/database"
