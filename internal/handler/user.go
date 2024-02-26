@@ -59,7 +59,7 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 			"error": "cannot parse JSON",
 		})
 	}
-	tx, err := h.DB.Begin()
+	tx, err := h.DB.Begin(c.UserContext())
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
@@ -85,7 +85,7 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 		UserID:     userUlid,
 	}
 	txq.AddUserToNotebookAsAdmin(c.UserContext(), paticipantsParams)
-	if err := tx.Commit(); err != nil {
+	if err := tx.Commit(c.UserContext()); err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 	return c.SendStatus(http.StatusCreated)

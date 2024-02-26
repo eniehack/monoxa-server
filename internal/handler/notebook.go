@@ -60,7 +60,7 @@ func (h *Handler) CreateNotebook(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	tx, err := h.DB.Begin()
+	tx, err := h.DB.Begin(c.UserContext())
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
@@ -82,7 +82,7 @@ func (h *Handler) CreateNotebook(c *fiber.Ctx) error {
 	if err := qtx.AddUserToNotebook(c.UserContext(), userParam); err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
-	if err := tx.Commit(); err != nil {
+	if err := tx.Commit(c.UserContext()); err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 

@@ -1,0 +1,42 @@
+version: "3"
+services:
+  backend:
+    build: .
+    restart: always
+    links:
+      - db
+    depends_on:
+      db:
+        condition: service_healthy
+      dbmate:
+        condition: service_completed_successfully
+    ports:
+      - "3001:3001"
+    env_file:
+      - .config/docker.env
+    volumes:
+      - ./files:/app/files
+      - ./.config:/app/.config:ro
+  dbmate:
+    image: ghcr.io/amacneil/dbmate:2.12
+    env_file:
+      - .config/docker.env
+    command: "-d ./db/migrations/postgres/ up"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./db:/db
+  db:
+    restart: always
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .config/docker.env
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
+      interval: 5s
+      retries: 20

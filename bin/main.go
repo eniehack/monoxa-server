@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"flag"
 	"log"
 	"os"
@@ -14,9 +13,8 @@ import (
 	"github.com/eniehack/voicelog-backend/pkg/firebaseauth"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/jackc/pgx/v5"
 	"google.golang.org/api/option"
-	_ "modernc.org/sqlite"
 )
 
 func main() {
@@ -42,7 +40,7 @@ func main() {
 	}
 	log.Println("initialized firebase authentication instance")
 
-	db, err := sql.Open(config.Database.DBType, config.Database.Url)
+	db, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalf("sql connection err: %v", err)
 	}
@@ -54,6 +52,7 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
 		AllowOriginsFunc: func(origin string) bool {
 			if os.Getenv("MODE") == "dev" {
 				return true
