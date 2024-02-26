@@ -13,7 +13,7 @@ CREATE UNIQUE INDEX idx__notebooks__alias_id ON notebooks (alias_id);
 CREATE TABLE notebooks_users (
     notebook_id VARCHAR NOT NULL,
     user_id VARCHAR NOT NULL,
-    is_admin BOOLEAN DEFAULT 0,
+    is_admin BOOLEAN DEFAULT False,
     FOREIGN KEY (notebook_id) REFERENCES notebooks(ulid),
     FOREIGN KEY (user_id) REFERENCES users(ulid)
 );

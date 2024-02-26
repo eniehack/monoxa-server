@@ -1,5 +1,4 @@
-credentials.json
-/internal/database
-*.sqlite
-config.toml
+.config/credentials.json
+.config/config.toml
 .config/docker.env
+/postgres/
