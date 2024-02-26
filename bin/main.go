@@ -52,6 +52,7 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
 		AllowOriginsFunc: func(origin string) bool {
 			if os.Getenv("MODE") == "dev" {
 				return true
